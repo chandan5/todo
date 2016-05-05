@@ -1,0 +1,23 @@
+{
+  "name": "todo",
+  "version": "0.1.0",
+  "description": "A simple todo app",
+  "main": "server.js",
+  "scripts": {
+    //"test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/chandan5/todo.git"
+  },
+  "keywords": [
+    "todo"
+  ],
+  "author": "Chandan Kharbanda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chandan5/todo/issues"
+  },
+  "homepage": "https://github.com/chandan5/todo#readme"
+}
