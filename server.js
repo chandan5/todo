@@ -9,17 +9,16 @@ var app = express();
 // console.log(model.Task);
 
 app.get('/tasks', function(req, res) {
-    model.Task.find().exec(function(err, tasks){
-        if(err) {
-            console.log("404");
-            res.statusCode(404);
-            res.end();
-        }
-        if(tasks) {
-            console.log(tasks);
-            res.send(tasks);
-        }
-    });
+    model.Task.find()
+        .select('description _id')
+        .exec()
+        .then(function (tasks) {
+            throw new Error();
+        })
+        .catch(function(err) {
+            console.log(err);
+            res.sendStatus(404);
+        });
 });
 
 // var task1 = new model.Task({description: 'task1'});
