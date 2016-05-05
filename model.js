@@ -1,12 +1,18 @@
 var mongoose = require('mongoose');
-// var Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 function connectDB() {
+    mongoose.set('debug', true)
     mongoose.connect('mongodb://localhost/todo');
 }
 
+var taskSchema = new Schema({
+    description: { type: String, required : true}
+}, {
+    versionKey: false
+});
 
-var Task = mongoose.model('Task', {description: String});
+var Task = mongoose.model('Task',taskSchema);
 
 module.exports = {
     connectDB : connectDB,
