@@ -1,8 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var model = require('./model');
+var bootstrap = require('./bootstrap');
 
-model.connectDB();
 
 var app = express();
 
@@ -33,11 +33,11 @@ app.get('/tasks/:taskId', function(req, res) {
     // console.log(req.params);
     var taskId = req.params.taskId;
     console.log(taskId);
-    model.Task.find({_id:taskId})
+    model.Task.findById(taskId)
         .select('description _id')
         .exec()
-        .then(function (tasks) {
-            res.json(tasks[0]);
+        .then(function (task) {
+            res.json(task);
         })
         .catch(function(err) {
             console.log(err);
@@ -70,7 +70,7 @@ app.delete('/tasks/:taskId', function(req,res){
     console.log("del req");
     var taskId = req.params.taskId;
     console.log(taskId);
-    model.Task.find({_id:taskId})
+    model.Task.findById(taskId)
         .remove()
         .exec()
         .then(function(){
@@ -87,7 +87,7 @@ app.put('/tasks/:taskId',function(req,res){
     console.log("update request");
     var taskId = req.params.taskId;
     var description = req.body.description;
-    model.Task.find({_id:taskId})
+    model.Task.findById(taskId)
         .update({"description":description})
         .exec()
         .then(function(){
@@ -112,5 +112,11 @@ app.put('/tasks/:taskId',function(req,res){
 //     catch(function(){
 //         console.log("error in creation of task2");
 //     });
-
-app.listen(8080);
+bootstrap.connectDB()
+    .then(function(){
+        app.listen(8080);
+    })
+    .catch(function (err) {
+        console.log(err);
+        console.log("some problem with db connection");
+    });
