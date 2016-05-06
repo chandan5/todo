@@ -68,11 +68,37 @@ app.post('/tasks', function(req, res) {
 
 app.delete('/tasks/:taskId', function(req,res){
     console.log("del req");
-    console.log(req.params.taskId);
-    // var taskId = req.body
-    // model.Task.findById()
+    var taskId = req.params.taskId;
+    console.log(taskId);
+    model.Task.find({_id:taskId})
+        .remove()
+        .exec()
+        .then(function(){
+            console.log("deleted task with taskId: " + taskId);
+            res.end();
+        })
+        .catch(function(){
+            console.log("couldn't find task id:" + taskId);
+            res.sendStatus(400);
+        });
 });
 
+app.put('/tasks/:taskId',function(req,res){
+    console.log("update request");
+    var taskId = req.params.taskId;
+    var description = req.body.description;
+    model.Task.find({_id:taskId})
+        .update({"description":description})
+        .exec()
+        .then(function(){
+            console.log("updated successfully with desc:" + description);
+            res.sendStatus(200);
+        })
+        .catch(function () {
+            console.log("unable to update:"+description);
+            res,statusCode(400);
+        });
+});
 
 //
 // var task2 = new model.Task({
